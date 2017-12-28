@@ -5,6 +5,7 @@ open import Data.Empty
 open import Data.Unit
 open import Data.Fin renaming (zero to fzero; suc to fsuc) hiding (_+_)
 open import Data.Nat
+-- open import Data.Nat.Properties
 open import Data.Nat.DivMod
 open import Function
 open import Relation.Binary.PropositionalEquality as PropEq
@@ -87,10 +88,11 @@ odd→¬even .(1 + k * 2) p | odd k = id
 even+even=even : ∀ m n → IsEven m → IsEven n → IsEven (m + n)
 even+even=even zero zero tt tt = tt
 even+even=even zero (suc n) tt q = q
-even+even=even (suc m) zero p tt = {!!}
+even+even=even (suc m) zero p tt = ?
 even+even=even (suc m) (suc n) p q = {!!}
 
 odd+odd=even : ∀ m n → IsOdd m → IsOdd n → IsEven (m + n)
 odd+odd=even m n = {!!}
+
 odd+even=odd : ∀ m n → IsOdd m → IsEven n → IsOdd (m + n)
 odd+even=odd m n = {!!}
