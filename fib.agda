@@ -9,7 +9,7 @@ open import Data.Nat
 open import Data.Nat.DivMod
 open import Function
 open import Relation.Binary.PropositionalEquality as PropEq
-open PropEq using (_≡_; subst)
+open PropEq using (_≡_; subst; cong)
 open import Relation.Nullary
 
 data Fib : ℕ → ℕ → Set where
@@ -85,10 +85,17 @@ odd→¬even n p with parity n
 odd→¬even .(k * 2) p | even k = const p
 odd→¬even .(1 + k * 2) p | odd k = id
 
+lemma : {m n : ℕ} → (P : ℕ → Set) → m ≡ n → P m → P n
+lemma P refl q = q
+
 even+even=even : ∀ m n → IsEven m → IsEven n → IsEven (m + n)
 even+even=even zero zero tt tt = tt
 even+even=even zero (suc n) tt q = q
-even+even=even (suc m) zero p tt = ?
+even+even=even (suc m) zero p tt = lemma IsEven (1+m≡1+[m+0] m) p
+  where
+    1+m≡1+[m+0] : ∀ m → suc m ≡ suc (m + 0)
+    1+m≡1+[m+0] zero = refl
+    1+m≡1+[m+0] (suc m) = cong suc (1+m≡1+[m+0] m)
 even+even=even (suc m) (suc n) p q = {!!}
 
 odd+odd=even : ∀ m n → IsOdd m → IsOdd n → IsEven (m + n)
