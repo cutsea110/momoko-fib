@@ -68,12 +68,29 @@ isFalse : Bool → Set
 isFalse false = ⊥
 isFalse true = ⊤
 
+IsEven : ℕ → Set
 IsEven = isTrue ∘ even?
+
+IsOdd : ℕ → Set
 IsOdd = isTrue ∘ odd?
 
-lemma0 : ∀ m n → IsEven m → IsEven n → IsEven (m + n)
-lemma0 m n = {!!}
-lemma1 : ∀ m n → IsOdd m → IsOdd n → IsEven (m + n)
-lemma1 m n = {!!}
-lemma2 : ∀ m n → IsOdd m → IsEven n → IsOdd (m + n)
-lemma2 m n = {!!}
+even→¬odd : ∀ n → IsEven n → ¬ IsOdd n
+even→¬odd n p with parity n
+even→¬odd .(k * 2) p | even k = id
+even→¬odd .(suc (k * 2)) p | odd k = const p
+
+odd→¬even : ∀ n → IsOdd n → ¬ IsEven n
+odd→¬even n p with parity n
+odd→¬even .(k * 2) p | even k = const p
+odd→¬even .(suc (k * 2)) p | odd k = id
+
+even+even=even : ∀ m n → IsEven m → IsEven n → IsEven (m + n)
+even+even=even m n with parity m | parity n
+even+even=even .(k * 2) .(k₁ * 2) | even k | even k₁ = {!!}
+even+even=even .(k * 2) .(suc (k₁ * 2)) | even k | odd k₁ = {!!}
+even+even=even .(suc (k * 2)) .(k₁ * 2) | odd k | even k₁ = {!!}
+even+even=even .(suc (k * 2)) .(suc (k₁ * 2)) | odd k | odd k₁ = {!!}
+odd+odd=even : ∀ m n → IsOdd m → IsOdd n → IsEven (m + n)
+odd+odd=even m n = {!!}
+odd+even=odd : ∀ m n → IsOdd m → IsEven n → IsOdd (m + n)
+odd+even=odd m n = {!!}
