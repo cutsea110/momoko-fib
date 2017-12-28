@@ -48,17 +48,17 @@ parity (suc (suc n)) with parity n
 half : ℕ → ℕ
 half n with parity n
 half .(k * 2) | even k = k
-half .(suc (k * 2)) | odd k = k
+half .(1 + k * 2) | odd k = k
 
 even? : ℕ → Bool
 even? n with parity n
 even? .(k * 2) | even k = true
-even? .(suc (k * 2)) | odd k = false
+even? .(1 + k * 2) | odd k = false
 
 odd? : ℕ → Bool
 odd? n with parity n
 odd? .(k * 2) | even k = false
-odd? .(suc (k * 2)) | odd k = true
+odd? .(1 + k * 2) | odd k = true
 
 isTrue : Bool → Set
 isTrue false = ⊥
@@ -77,19 +77,19 @@ IsOdd = isTrue ∘ odd?
 even→¬odd : ∀ n → IsEven n → ¬ IsOdd n
 even→¬odd n p with parity n
 even→¬odd .(k * 2) p | even k = id
-even→¬odd .(suc (k * 2)) p | odd k = const p
+even→¬odd .(1 + k * 2) p | odd k = const p
 
 odd→¬even : ∀ n → IsOdd n → ¬ IsEven n
 odd→¬even n p with parity n
 odd→¬even .(k * 2) p | even k = const p
-odd→¬even .(suc (k * 2)) p | odd k = id
+odd→¬even .(1 + k * 2) p | odd k = id
 
 even+even=even : ∀ m n → IsEven m → IsEven n → IsEven (m + n)
-even+even=even m n with parity m | parity n
-even+even=even .(k * 2) .(k₁ * 2) | even k | even k₁ = {!!}
-even+even=even .(k * 2) .(suc (k₁ * 2)) | even k | odd k₁ = {!!}
-even+even=even .(suc (k * 2)) .(k₁ * 2) | odd k | even k₁ = {!!}
-even+even=even .(suc (k * 2)) .(suc (k₁ * 2)) | odd k | odd k₁ = {!!}
+even+even=even zero zero tt tt = tt
+even+even=even zero (suc n) tt q = q
+even+even=even (suc m) zero p tt = {!!}
+even+even=even (suc m) (suc n) p q = {!!}
+
 odd+odd=even : ∀ m n → IsOdd m → IsOdd n → IsEven (m + n)
 odd+odd=even m n = {!!}
 odd+even=odd : ∀ m n → IsOdd m → IsEven n → IsOdd (m + n)
