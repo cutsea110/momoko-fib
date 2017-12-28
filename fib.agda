@@ -6,6 +6,7 @@ open import Data.Unit
 open import Data.Fin renaming (zero to fzero; suc to fsuc) hiding (_+_)
 open import Data.Nat
 open import Data.Nat.DivMod
+open import Function
 open import Relation.Binary.PropositionalEquality as PropEq
 open PropEq using (_≡_; subst)
 open import Relation.Nullary
@@ -66,3 +67,13 @@ isTrue true = ⊤
 isFalse : Bool → Set
 isFalse false = ⊥
 isFalse true = ⊤
+
+IsEven = isTrue ∘ even?
+IsOdd = isTrue ∘ odd?
+
+lemma0 : ∀ m n → IsEven m → IsEven n → IsEven (m + n)
+lemma0 m n = {!!}
+lemma1 : ∀ m n → IsOdd m → IsOdd n → IsEven (m + n)
+lemma1 m n = {!!}
+lemma2 : ∀ m n → IsOdd m → IsEven n → IsOdd (m + n)
+lemma2 m n = {!!}
