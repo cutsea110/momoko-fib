@@ -99,7 +99,10 @@ even+even=even (suc m) zero p tt = lemma IsEven (1+m≡1+[m+0] m) p
 even+even=even (suc m) (suc n) p q = {!!}
 
 odd+odd=even : ∀ m n → IsOdd m → IsOdd n → IsEven (m + n)
-odd+odd=even m n = {!!}
+odd+odd=even zero zero () q
+odd+odd=even zero (suc n) () q
+odd+odd=even (suc m) zero p ()
+odd+odd=even (suc m) (suc n) p q = {!!}
 
 odd+even=odd : ∀ m n → IsOdd m → IsEven n → IsOdd (m + n)
-odd+even=odd m n = {!!}
+odd+even=odd m n p q = {!!}
