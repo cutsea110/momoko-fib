@@ -88,14 +88,14 @@ odd→¬even .(1 + k * 2) p | odd k = id
 lemma : {m n : ℕ} → (P : ℕ → Set) → m ≡ n → P m → P n
 lemma P refl q = q
 
+1+m≡1+[m+0] : ∀ m → suc m ≡ suc (m + 0)
+1+m≡1+[m+0] zero = refl
+1+m≡1+[m+0] (suc m) = cong suc (1+m≡1+[m+0] m)
+
 even+even=even : ∀ m n → IsEven m → IsEven n → IsEven (m + n)
 even+even=even zero zero tt tt = tt
 even+even=even zero (suc n) tt q = q
 even+even=even (suc m) zero p tt = lemma IsEven (1+m≡1+[m+0] m) p
-  where
-    1+m≡1+[m+0] : ∀ m → suc m ≡ suc (m + 0)
-    1+m≡1+[m+0] zero = refl
-    1+m≡1+[m+0] (suc m) = cong suc (1+m≡1+[m+0] m)
 even+even=even (suc m) (suc n) p q = {!!}
 
 odd+odd=even : ∀ m n → IsOdd m → IsOdd n → IsEven (m + n)
@@ -105,4 +105,7 @@ odd+odd=even (suc m) zero p ()
 odd+odd=even (suc m) (suc n) p q = {!!}
 
 odd+even=odd : ∀ m n → IsOdd m → IsEven n → IsOdd (m + n)
-odd+even=odd m n p q = {!!}
+odd+even=odd zero zero () q
+odd+even=odd zero (suc n) () q
+odd+even=odd (suc m) zero p tt = lemma IsOdd (1+m≡1+[m+0] m) p
+odd+even=odd (suc m) (suc n) p q = {!!}
