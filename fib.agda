@@ -88,10 +88,6 @@ odd→¬even .(1 + k * 2) p | odd k = id
 lemma : {m n : ℕ} → (P : ℕ → Set) → m ≡ n → P m → P n
 lemma P refl q = q
 
-1+m≡1+[m+0] : ∀ m → suc m ≡ suc (m + 0)
-1+m≡1+[m+0] zero = refl
-1+m≡1+[m+0] (suc m) = cong suc (1+m≡1+[m+0] m)
-
 data Inspect {A : Set}(x : A) : Set where
   _with-≡_ : (y : A) → x ≡ y → Inspect x
 
@@ -160,7 +156,7 @@ odd-comm m n p = lemma IsOdd (+-comm m n) p
 even+even=even : ∀ m n → IsEven m → IsEven n → IsEven (m + n)
 even+even=even zero zero p q = tt
 even+even=even zero (suc n) p q = q
-even+even=even (suc m) zero p tt = lemma IsEven (1+m≡1+[m+0] m) p
+even+even=even (suc m) zero p tt = lemma IsEven (cong suc (+-comm zero m)) p
 even+even=even (suc zero) (suc zero) p q = tt
 even+even=even (suc zero) (suc (suc n)) () q
 even+even=even (suc (suc m)) (suc zero) p ()
@@ -181,7 +177,7 @@ odd+odd=even (suc (suc m)) (suc (suc n)) p q
 odd+even=odd : ∀ m n → IsOdd m → IsEven n → IsOdd (m + n)
 odd+even=odd zero zero () q
 odd+even=odd zero (suc n) () q
-odd+even=odd (suc m) zero p tt = lemma IsOdd (1+m≡1+[m+0] m) p
+odd+even=odd (suc m) zero p tt = lemma IsOdd (cong suc (+-comm zero m)) p
 odd+even=odd (suc zero) (suc zero) p ()
 odd+even=odd (suc zero) (suc (suc n)) tt q = next-even-is-odd (suc (suc n)) q
 odd+even=odd (suc (suc m)) (suc zero) p ()
