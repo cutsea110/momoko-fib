@@ -120,12 +120,13 @@ trivOdd (suc zero) = tt
 trivOdd (suc (suc k)) = step-odd (suc (suc (suc (k * 2)))) (trivOdd (suc k))
 
 even+even=even : ∀ m n → IsEven m → IsEven n → IsEven (m + n)
-even+even=even zero zero tt tt = tt
-even+even=even zero (suc n) tt q = q
+even+even=even zero zero p q = tt
+even+even=even zero (suc n) p q = q
 even+even=even (suc m) zero p tt = lemma IsEven (1+m≡1+[m+0] m) p
-even+even=even (suc m) (suc n) p q with inspect (even? (m + n))
-even+even=even (suc m) (suc n) p q | false with-≡ x = {!!}
-even+even=even (suc m) (suc n) p q | true with-≡ x = {!!}
+even+even=even (suc zero) (suc zero) p q = tt
+even+even=even (suc zero) (suc (suc n)) () q
+even+even=even (suc (suc m)) (suc zero) p ()
+even+even=even (suc (suc m)) (suc (suc n)) p q = step-even (m + suc (suc n)) {!!}
 
 odd+odd=even : ∀ m n → IsOdd m → IsOdd n → IsEven (m + n)
 odd+odd=even zero zero () q
