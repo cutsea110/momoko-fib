@@ -98,6 +98,27 @@ data Inspect {A : Set}(x : A) : Set where
 inspect : {A : Set}(x : A) → Inspect x
 inspect x = x with-≡ refl
 
+step-even : ∀ n → IsEven n → IsEven (suc (suc n))
+step-even n p with parity n
+step-even .(k * 2) tt | even k = tt
+step-even .(suc (k * 2)) () | odd k
+
+step-odd : ∀ n → IsOdd n → IsOdd (suc (suc n))
+step-odd n p with parity n
+step-odd .(k * 2) () | even k
+step-odd .(suc (k * 2)) tt | odd k = tt
+
+trivEven : ∀ k → IsEven (k * 2)
+trivEven k with Data.Bool._≟_ (even? (k * 2)) true
+trivEven k | yes p rewrite p = tt
+trivEven k | no ¬p = {!!}
+
+
+trivOdd : ∀ k → IsOdd (1 + k * 2)
+trivOdd k with Data.Bool._≟_ (odd? (1 + k * 2)) true
+trivOdd k | yes p rewrite p = tt
+trivOdd k | no ¬p = {!!}
+
 even+even=even : ∀ m n → IsEven m → IsEven n → IsEven (m + n)
 even+even=even zero zero tt tt = tt
 even+even=even zero (suc n) tt q = q
