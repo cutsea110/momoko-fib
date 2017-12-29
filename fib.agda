@@ -152,8 +152,10 @@ next-odd-is-even .(k * 2) () | even k
 next-odd-is-even .(suc (k * 2)) tt | odd k = step-even (k * 2) (trivEven k)
 
 even-comm : ∀ m n → IsEven (m + n) → IsEven (n + m)
-even-comm zero n p = lemma IsEven (+-comm zero n) p
-even-comm (suc m) n p = lemma IsEven (+-comm (suc m) n) p
+even-comm m n p = lemma IsEven (+-comm m n) p
+
+odd-comm : ∀ m n → IsOdd (m + n) → IsOdd (n + m)
+odd-comm m n p = lemma IsOdd (+-comm m n) p
 
 even+even=even : ∀ m n → IsEven m → IsEven n → IsEven (m + n)
 even+even=even zero zero p q = tt
@@ -185,3 +187,4 @@ odd+even=odd (suc zero) (suc (suc n)) tt q = next-even-is-odd (suc (suc n)) q
 odd+even=odd (suc (suc m)) (suc zero) p ()
 odd+even=odd (suc (suc m)) (suc (suc n)) p q
   = step-odd (m + suc (suc n)) (odd+even=odd m (suc (suc n)) (pets-odd m p) q)
+
