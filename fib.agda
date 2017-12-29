@@ -184,3 +184,7 @@ odd+even=odd (suc (suc m)) (suc zero) p ()
 odd+even=odd (suc (suc m)) (suc (suc n)) p q
   = step-odd (m + suc (suc n)) (odd+even=odd m (suc (suc n)) (pets-odd m p) q)
 
+momoko-hypothesis-1 : ∀ k → IsEven (fib (2 + k * 3))
+momoko-hypothesis-1 zero = tt
+momoko-hypothesis-1 (suc zero) = tt
+momoko-hypothesis-1 (suc (suc k)) = {!!}
