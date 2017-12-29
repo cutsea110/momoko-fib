@@ -143,8 +143,8 @@ next-even-is-odd .(suc (k * 2)) () | odd k
 
 prev-even-is-odd : ∀ n → IsEven (suc n) → IsOdd n
 prev-even-is-odd n p with parity n
-prev-even-is-odd .(k * 2) p | even k = {!!}
-prev-even-is-odd .(suc (k * 2)) p | odd k = {!!}
+prev-even-is-odd .(k * 2) p | even k = triv¬Even k p
+prev-even-is-odd .(suc (k * 2)) p | odd k = tt
 
 next-odd-is-even : ∀ n → IsOdd n → IsEven (suc n)
 next-odd-is-even n p with parity n
