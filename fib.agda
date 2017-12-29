@@ -5,11 +5,11 @@ open import Data.Empty
 open import Data.Unit
 open import Data.Fin renaming (zero to fzero; suc to fsuc) hiding (_+_)
 open import Data.Nat
--- open import Data.Nat.Properties
+open import Data.Nat.Properties
 open import Data.Nat.DivMod
 open import Function
 import Relation.Binary.PropositionalEquality as PropEq
-open PropEq using (_≡_; refl; subst; cong)
+open PropEq using (_≡_; refl; subst; cong; sym)
 open import Relation.Nullary
 
 data Fib : ℕ → ℕ → Set where
@@ -103,10 +103,20 @@ step-even n p with parity n
 step-even .(k * 2) tt | even k = tt
 step-even .(suc (k * 2)) () | odd k
 
+pets-even : ∀ n → IsEven (suc (suc n)) → IsEven n
+pets-even n p with parity n
+pets-even .(k * 2) p | even k = tt
+pets-even .(suc (k * 2)) () | odd k
+
 step-odd : ∀ n → IsOdd n → IsOdd (suc (suc n))
 step-odd n p with parity n
 step-odd .(k * 2) () | even k
 step-odd .(suc (k * 2)) tt | odd k = tt
+
+pets-odd : ∀ n → IsOdd (suc (suc n)) → IsOdd n
+pets-odd n p with parity n
+pets-odd .(k * 2) () | even k
+pets-odd .(suc (k * 2)) tt | odd k = tt
 
 trivEven : ∀ k → IsEven (k * 2)
 trivEven zero = tt
@@ -119,6 +129,10 @@ trivOdd zero = tt
 trivOdd (suc zero) = tt
 trivOdd (suc (suc k)) = step-odd (suc (suc (suc (k * 2)))) (trivOdd (suc k))
 
+even-comm : ∀ m n → IsEven (m + n) → IsEven (n + m)
+even-comm zero n p = lemma IsEven (+-comm zero n) p
+even-comm (suc m) n p = lemma IsEven (+-comm (suc m) n) p
+
 even+even=even : ∀ m n → IsEven m → IsEven n → IsEven (m + n)
 even+even=even zero zero p q = tt
 even+even=even zero (suc n) p q = q
@@ -126,16 +140,23 @@ even+even=even (suc m) zero p tt = lemma IsEven (1+m≡1+[m+0] m) p
 even+even=even (suc zero) (suc zero) p q = tt
 even+even=even (suc zero) (suc (suc n)) () q
 even+even=even (suc (suc m)) (suc zero) p ()
-even+even=even (suc (suc m)) (suc (suc n)) p q = step-even (m + suc (suc n)) {!!}
+even+even=even (suc (suc m)) (suc (suc n)) p q
+  = step-even (m + suc (suc n)) (even+even=even m (suc (suc n)) (pets-even m p) q)
 
 odd+odd=even : ∀ m n → IsOdd m → IsOdd n → IsEven (m + n)
 odd+odd=even zero zero () q
 odd+odd=even zero (suc n) () q
 odd+odd=even (suc m) zero p ()
-odd+odd=even (suc m) (suc n) p q = {!!}
+odd+odd=even (suc zero) (suc zero) tt tt = tt
+odd+odd=even (suc zero) (suc (suc n)) tt q = {!!}
+odd+odd=even (suc (suc m)) (suc zero) p tt = {!!}
+odd+odd=even (suc (suc m)) (suc (suc n)) p q = {!!}
 
 odd+even=odd : ∀ m n → IsOdd m → IsEven n → IsOdd (m + n)
 odd+even=odd zero zero () q
 odd+even=odd zero (suc n) () q
 odd+even=odd (suc m) zero p tt = lemma IsOdd (1+m≡1+[m+0] m) p
-odd+even=odd (suc m) (suc n) p q = {!!}
+odd+even=odd (suc zero) (suc zero) p ()
+odd+even=odd (suc zero) (suc (suc n)) tt q = {!!}
+odd+even=odd (suc (suc m)) (suc zero) p ()
+odd+even=odd (suc (suc m)) (suc (suc n)) p q = {!!}
