@@ -184,12 +184,17 @@ odd+even=odd (suc (suc m)) (suc zero) p ()
 odd+even=odd (suc (suc m)) (suc (suc n)) p q
   = step-odd (m + suc (suc n)) (odd+even=odd m (suc (suc n)) (pets-odd m p) q)
 
+even+odd=odd : ∀ m n → IsEven m → IsOdd n → IsOdd (m + n)
+even+odd=odd m n p q = odd-comm n m (odd+even=odd n m q p)
+
 -- Momoko's Hypothesis 1
 momoko-lemma0 : ∀ k → IsOdd (fib (k * 3))
-momoko-lemma0 n = {!!}
 momoko-lemma1 : ∀ k → IsOdd (fib (1 + k * 3))
-momoko-lemma1 n = {!!}
 momoko-lemma2 : ∀ k → IsEven (fib (2 + k * 3))
+
+momoko-lemma0 zero = tt
+momoko-lemma0 (suc n) = {!!}
+momoko-lemma1 n = {!!}
 momoko-lemma2 n = odd+odd=even (fib (suc (n * 3))) (fib (n * 3)) (momoko-lemma1 n) (momoko-lemma0 n)
 
 momoko-hypothesis-1 : ∀ k → IsEven (fib (2 + k * 3))
