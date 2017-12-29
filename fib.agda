@@ -193,9 +193,35 @@ momoko-lemma1 : ∀ k → IsOdd (fib (1 + k * 3))
 momoko-lemma2 : ∀ k → IsEven (fib (2 + k * 3))
 
 momoko-lemma0 zero = tt
-momoko-lemma0 (suc n) = {!!}
-momoko-lemma1 n = {!!}
-momoko-lemma2 n = odd+odd=even (fib (suc (n * 3))) (fib (n * 3)) (momoko-lemma1 n) (momoko-lemma0 n)
+momoko-lemma0 (suc n)
+  = even+odd=odd (fib (suc (n * 3)) + fib (n * 3))
+                 (fib (suc (n * 3)))
+                 (odd+odd=even (fib (suc (n * 3)))
+                               (fib (n * 3))
+                               (momoko-lemma1 n)
+                               (momoko-lemma0 n))
+                 (momoko-lemma1 n)
+  
+momoko-lemma1 zero = tt
+momoko-lemma1 (suc n)
+  = odd+even=odd (fib (suc (n * 3)) + fib (n * 3) + fib (suc (n * 3)))
+                 (fib (suc (n * 3)) + fib (n * 3))
+  (even+odd=odd (fib (suc (n * 3)) + fib (n * 3))
+                (fib (suc (n * 3)))
+                (odd+odd=even (fib (suc (n * 3)))
+                              (fib (n * 3))
+                              (momoko-lemma1 n)
+                              (momoko-lemma0 n))
+                (momoko-lemma1 n))
+  (odd+odd=even (fib (suc (n * 3)))
+                (fib (n * 3))
+                (momoko-lemma1 n)
+                (momoko-lemma0 n))
+
+momoko-lemma2 n = odd+odd=even (fib (suc (n * 3)))
+                               (fib (n * 3))
+                               (momoko-lemma1 n)
+                               (momoko-lemma0 n)
 
 momoko-hypothesis-1 : ∀ k → IsEven (fib (2 + k * 3))
 momoko-hypothesis-1 = momoko-lemma2
