@@ -173,7 +173,8 @@ odd+odd=even (suc zero) (suc zero) tt tt = tt
 odd+odd=even (suc zero) (suc (suc n)) tt q = next-odd-is-even (suc (suc n)) q
 odd+odd=even (suc (suc m)) (suc zero) p tt
   = next-odd-is-even (suc (m + 1)) (lemma IsOdd (cong suc (+-comm 1 m)) p)
-odd+odd=even (suc (suc m)) (suc (suc n)) p q = {!!}
+odd+odd=even (suc (suc m)) (suc (suc n)) p q
+  = step-even (m + suc (suc n)) (odd+odd=even m (suc (suc n)) (pets-odd m p) q)
 
 odd+even=odd : ∀ m n → IsOdd m → IsEven n → IsOdd (m + n)
 odd+even=odd zero zero () q
@@ -182,4 +183,4 @@ odd+even=odd (suc m) zero p tt = lemma IsOdd (1+m≡1+[m+0] m) p
 odd+even=odd (suc zero) (suc zero) p ()
 odd+even=odd (suc zero) (suc (suc n)) tt q = next-even-is-odd (suc (suc n)) q
 odd+even=odd (suc (suc m)) (suc zero) p ()
-odd+even=odd (suc (suc m)) (suc (suc n)) p q = {!!}
+odd+even=odd (suc (suc m)) (suc (suc n)) p q = step-odd (m + suc (suc n)) (odd+even=odd m (suc (suc n)) (pets-odd m p) q)
