@@ -109,15 +109,15 @@ step-odd .(k * 2) () | even k
 step-odd .(suc (k * 2)) tt | odd k = tt
 
 trivEven : ∀ k → IsEven (k * 2)
-trivEven k with Data.Bool._≟_ (even? (k * 2)) true
-trivEven k | yes p rewrite p = tt
-trivEven k | no ¬p = {!!}
+trivEven zero = tt
+trivEven (suc zero) = tt
+trivEven (suc (suc k)) = step-even (suc (suc (k * 2))) (trivEven (suc k))
 
 
 trivOdd : ∀ k → IsOdd (1 + k * 2)
-trivOdd k with Data.Bool._≟_ (odd? (1 + k * 2)) true
-trivOdd k | yes p rewrite p = tt
-trivOdd k | no ¬p = {!!}
+trivOdd zero = tt
+trivOdd (suc zero) = tt
+trivOdd (suc (suc k)) = step-odd (suc (suc (suc (k * 2)))) (trivOdd (suc k))
 
 even+even=even : ∀ m n → IsEven m → IsEven n → IsEven (m + n)
 even+even=even zero zero tt tt = tt
