@@ -183,4 +183,5 @@ odd+even=odd (suc m) zero p tt = lemma IsOdd (1+m≡1+[m+0] m) p
 odd+even=odd (suc zero) (suc zero) p ()
 odd+even=odd (suc zero) (suc (suc n)) tt q = next-even-is-odd (suc (suc n)) q
 odd+even=odd (suc (suc m)) (suc zero) p ()
-odd+even=odd (suc (suc m)) (suc (suc n)) p q = step-odd (m + suc (suc n)) (odd+even=odd m (suc (suc n)) (pets-odd m p) q)
+odd+even=odd (suc (suc m)) (suc (suc n)) p q
+  = step-odd (m + suc (suc n)) (odd+even=odd m (suc (suc n)) (pets-odd m p) q)
