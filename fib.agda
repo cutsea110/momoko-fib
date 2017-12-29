@@ -171,7 +171,8 @@ odd+odd=even zero (suc n) () q
 odd+odd=even (suc m) zero p ()
 odd+odd=even (suc zero) (suc zero) tt tt = tt
 odd+odd=even (suc zero) (suc (suc n)) tt q = next-odd-is-even (suc (suc n)) q
-odd+odd=even (suc (suc m)) (suc zero) p tt = next-odd-is-even (suc (m + 1)) {!!}
+odd+odd=even (suc (suc m)) (suc zero) p tt
+  = next-odd-is-even (suc (m + 1)) (lemma IsOdd (cong suc (+-comm 1 m)) p)
 odd+odd=even (suc (suc m)) (suc (suc n)) p q = {!!}
 
 odd+even=odd : ∀ m n → IsOdd m → IsEven n → IsOdd (m + n)
