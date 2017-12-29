@@ -123,11 +123,33 @@ trivEven zero = tt
 trivEven (suc zero) = tt
 trivEven (suc (suc k)) = step-even (suc (suc (k * 2))) (trivEven (suc k))
 
-
 trivOdd : ∀ k → IsOdd (1 + k * 2)
 trivOdd zero = tt
 trivOdd (suc zero) = tt
 trivOdd (suc (suc k)) = step-odd (suc (suc (suc (k * 2)))) (trivOdd (suc k))
+
+triv¬Even : ∀ k → ¬ IsEven (1 + k * 2)
+triv¬Even zero = id
+triv¬Even (suc k) = odd→¬even (suc (suc (suc (k * 2)))) (step-odd (suc (k * 2)) (trivOdd k))
+
+triv¬Odd : ∀ k → ¬ IsOdd (k * 2)
+triv¬Odd zero = id
+triv¬Odd (suc k) = even→¬odd (suc (suc (k * 2))) (step-even (k * 2) (trivEven k))
+
+next-even-is-odd : ∀ n → IsEven n → IsOdd (suc n)
+next-even-is-odd n p with parity n
+next-even-is-odd .(k * 2) tt | even k = trivOdd k
+next-even-is-odd .(suc (k * 2)) () | odd k
+
+prev-even-is-odd : ∀ n → IsEven (suc n) → IsOdd n
+prev-even-is-odd n p with parity n
+prev-even-is-odd .(k * 2) p | even k = {!!}
+prev-even-is-odd .(suc (k * 2)) p | odd k = {!!}
+
+next-odd-is-even : ∀ n → IsOdd n → IsEven (suc n)
+next-odd-is-even n p with parity n
+next-odd-is-even .(k * 2) () | even k
+next-odd-is-even .(suc (k * 2)) tt | odd k = step-even (k * 2) (trivEven k)
 
 even-comm : ∀ m n → IsEven (m + n) → IsEven (n + m)
 even-comm zero n p = lemma IsEven (+-comm zero n) p
