@@ -8,8 +8,8 @@ open import Data.Nat
 -- open import Data.Nat.Properties
 open import Data.Nat.DivMod
 open import Function
-open import Relation.Binary.PropositionalEquality as PropEq
-open PropEq using (_≡_; subst; cong)
+import Relation.Binary.PropositionalEquality as PropEq
+open PropEq using (_≡_; refl; subst; cong)
 open import Relation.Nullary
 
 data Fib : ℕ → ℕ → Set where
@@ -92,11 +92,19 @@ lemma P refl q = q
 1+m≡1+[m+0] zero = refl
 1+m≡1+[m+0] (suc m) = cong suc (1+m≡1+[m+0] m)
 
+data Inspect {A : Set}(x : A) : Set where
+  _with-≡_ : (y : A) → x ≡ y → Inspect x
+
+inspect : {A : Set}(x : A) → Inspect x
+inspect x = x with-≡ refl
+
 even+even=even : ∀ m n → IsEven m → IsEven n → IsEven (m + n)
 even+even=even zero zero tt tt = tt
 even+even=even zero (suc n) tt q = q
 even+even=even (suc m) zero p tt = lemma IsEven (1+m≡1+[m+0] m) p
-even+even=even (suc m) (suc n) p q = {!!}
+even+even=even (suc m) (suc n) p q with inspect (even? (m + n))
+even+even=even (suc m) (suc n) p q | false with-≡ x = {!!}
+even+even=even (suc m) (suc n) p q | true with-≡ x = {!!}
 
 odd+odd=even : ∀ m n → IsOdd m → IsOdd n → IsEven (m + n)
 odd+odd=even zero zero () q
