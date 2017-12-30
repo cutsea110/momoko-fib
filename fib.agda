@@ -106,11 +106,11 @@ trivEven (suc (suc k)) = step-even (suc (suc (k * 2))) (trivEven (suc k))
 trivOdd : ∀ k → IsOdd (1 + k * 2)
 trivOdd zero = tt
 trivOdd (suc zero) = tt
-trivOdd (suc (suc k)) = step-odd (suc (suc (suc (k * 2)))) (trivOdd (suc k))
+trivOdd (suc (suc k)) = step-odd (suc (suc (1 + k * 2))) (trivOdd (suc k))
 
 triv¬Even : ∀ k → ¬ IsEven (1 + k * 2)
 triv¬Even zero = id
-triv¬Even (suc k) = odd→¬even (suc (suc (suc (k * 2)))) (step-odd (suc (k * 2)) (trivOdd k))
+triv¬Even (suc k) = odd→¬even (suc (suc (1 + k * 2))) (step-odd (suc (k * 2)) (trivOdd k))
 
 triv¬Odd : ∀ k → ¬ IsOdd (k * 2)
 triv¬Odd zero = id
