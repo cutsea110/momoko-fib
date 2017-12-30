@@ -30,11 +30,6 @@ fib-is-FibFunc zero = Fib0
 fib-is-FibFunc (suc zero) = Fib1
 fib-is-FibFunc (suc (suc n)) = FibN (fib-is-FibFunc (suc n)) (fib-is-FibFunc n)
 
-toFib : (n : ℕ) → Fib n (fib n)
-toFib zero = Fib0
-toFib (suc zero) = Fib1
-toFib (suc (suc n)) = FibN (toFib (suc n)) (toFib n)
-
 data Parity : ℕ → Set where
   even : (k : ℕ) → Parity (k * 2)
   odd  : (k : ℕ) → Parity (1 + k * 2)
@@ -45,11 +40,6 @@ parity (suc zero) = odd zero
 parity (suc (suc n)) with parity n
 ... | even k = even (suc k)
 ... | odd  k  = odd (suc k)
-
-half : ℕ → ℕ
-half n with parity n
-half .(k * 2) | even k = k
-half .(1 + k * 2) | odd k = k
 
 even? : ℕ → Bool
 even? n with parity n
@@ -87,12 +77,6 @@ odd→¬even .(1 + k * 2) p | odd k = id
 
 lemma : {m n : ℕ} → (P : ℕ → Set) → m ≡ n → P m → P n
 lemma P refl q = q
-
-data Inspect {A : Set}(x : A) : Set where
-  _with-≡_ : (y : A) → x ≡ y → Inspect x
-
-inspect : {A : Set}(x : A) → Inspect x
-inspect x = x with-≡ refl
 
 step-even : ∀ n → IsEven n → IsEven (suc (suc n))
 step-even n p with parity n
