@@ -187,9 +187,9 @@ momoko-lemma0 (suc n)
                  (momoko-lemma1 n)
   
 momoko-lemma1 zero = tt
-momoko-lemma1 (suc n)
-  = odd+even=odd (fib (1 + n * 3) + fib (n * 3) + fib (1 + n * 3))
-                 (fib (1 + n * 3) + fib (n * 3))
+momoko-lemma1 (suc n) =
+  odd+even=odd (fib (1 + n * 3) + fib (n * 3) + fib (1 + n * 3))
+               (fib (1 + n * 3) + fib (n * 3))
   (even+odd=odd (fib (1 + n * 3) + fib (n * 3))
                 (fib (1 + n * 3))
                 (odd+odd=even (fib (1 + n * 3))
