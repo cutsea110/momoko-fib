@@ -7,7 +7,7 @@ open import Data.Fin renaming (zero to fzero; suc to fsuc) hiding (_+_)
 open import Data.Nat
 open import Data.Nat.Properties
 open import Data.Nat.DivMod
-open import Function
+open import Function using (id; _∘_; const)
 import Relation.Binary.PropositionalEquality as PropEq
 open PropEq using (_≡_; refl; subst; cong; sym)
 open import Relation.Nullary
