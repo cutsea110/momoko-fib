@@ -83,20 +83,20 @@ step-even n p with parity n
 step-even .(k * 2) tt | even k = tt
 step-even .(suc (k * 2)) () | odd k
 
-pets-even : ∀ n → IsEven (suc (suc n)) → IsEven n
-pets-even n p with parity n
-pets-even .(k * 2) p | even k = tt
-pets-even .(suc (k * 2)) () | odd k
+pred-even : ∀ n → IsEven (suc (suc n)) → IsEven n
+pred-even n p with parity n
+pred-even .(k * 2) p | even k = tt
+pred-even .(suc (k * 2)) () | odd k
 
 step-odd : ∀ n → IsOdd n → IsOdd (suc (suc n))
 step-odd n p with parity n
 step-odd .(k * 2) () | even k
 step-odd .(suc (k * 2)) tt | odd k = tt
 
-pets-odd : ∀ n → IsOdd (suc (suc n)) → IsOdd n
-pets-odd n p with parity n
-pets-odd .(k * 2) () | even k
-pets-odd .(suc (k * 2)) tt | odd k = tt
+pred-odd : ∀ n → IsOdd (suc (suc n)) → IsOdd n
+pred-odd n p with parity n
+pred-odd .(k * 2) () | even k
+pred-odd .(suc (k * 2)) tt | odd k = tt
 
 trivEven : ∀ k → IsEven (k * 2)
 trivEven zero = tt
@@ -145,7 +145,7 @@ even+even=even (suc zero) (suc zero) p q = tt
 even+even=even (suc zero) (suc (suc n)) () q
 even+even=even (suc (suc m)) (suc zero) p ()
 even+even=even (suc (suc m)) (suc (suc n)) p q
-  = step-even (m + suc (suc n)) (even+even=even m (suc (suc n)) (pets-even m p) q)
+  = step-even (m + suc (suc n)) (even+even=even m (suc (suc n)) (pred-even m p) q)
 
 odd+odd=even : ∀ m n → IsOdd m → IsOdd n → IsEven (m + n)
 odd+odd=even zero zero () q
@@ -156,7 +156,7 @@ odd+odd=even (suc zero) (suc (suc n)) tt q = next-odd-is-even (suc (suc n)) q
 odd+odd=even (suc (suc m)) (suc zero) p tt
   = next-odd-is-even (suc (m + 1)) (lemma IsOdd (cong suc (+-comm 1 m)) p)
 odd+odd=even (suc (suc m)) (suc (suc n)) p q
-  = step-even (m + suc (suc n)) (odd+odd=even m (suc (suc n)) (pets-odd m p) q)
+  = step-even (m + suc (suc n)) (odd+odd=even m (suc (suc n)) (pred-odd m p) q)
 
 odd+even=odd : ∀ m n → IsOdd m → IsEven n → IsOdd (m + n)
 odd+even=odd zero zero () q
@@ -166,7 +166,7 @@ odd+even=odd (suc zero) (suc zero) p ()
 odd+even=odd (suc zero) (suc (suc n)) tt q = next-even-is-odd (suc (suc n)) q
 odd+even=odd (suc (suc m)) (suc zero) p ()
 odd+even=odd (suc (suc m)) (suc (suc n)) p q
-  = step-odd (m + suc (suc n)) (odd+even=odd m (suc (suc n)) (pets-odd m p) q)
+  = step-odd (m + suc (suc n)) (odd+even=odd m (suc (suc n)) (pred-odd m p) q)
 
 even+odd=odd : ∀ m n → IsEven m → IsOdd n → IsOdd (m + n)
 even+odd=odd m n p q = odd-comm n m (odd+even=odd n m q p)
